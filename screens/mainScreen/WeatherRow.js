@@ -5,7 +5,9 @@ const WeatherRow = props => {
     return (
         <TouchableOpacity
             style={styles.item}
-            onPress={() => props.navigation.navigate("detail")}>
+            onPress={() =>
+                props.navigation.navigate("detail", { summary: props.summary })
+            }>
             <Text style={styles.forecast}>{props.summary}</Text>
             <View style={styles.line}></View>
         </TouchableOpacity>
