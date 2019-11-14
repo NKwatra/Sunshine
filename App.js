@@ -5,10 +5,12 @@ import {
   ScrollView,
   ProgressBarAndroid,
   View,
-  StatusBar
+  StatusBar,
+  FlatList
 } from "react-native";
 import API from "./API";
 import parseData from "./Utilities/formatWeather";
+import WeatherRow from "./WeatherRow";
 
 export default class App extends React.Component {
   state = {
@@ -44,11 +46,11 @@ export default class App extends React.Component {
     } else {
       return (
         <ScrollView style={styles.container}>
-          {this.state.weatherForcast.map(dailyForcast => (
-            <Text key={dailyForcast} style={styles.forecast}>
-              {dailyForcast}
-            </Text>
-          ))}
+          <FlatList
+            data={this.state.weatherForcast}
+            renderItem={({ item }) => <WeatherRow summary={item} />}
+            keyExtractor={item => item}
+          />
         </ScrollView>
       );
     }
@@ -77,10 +79,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 60
-  },
-  forecast: {
-    padding: 10,
-    fontSize: 20
   },
   centredContent: {
     flex: 1,
