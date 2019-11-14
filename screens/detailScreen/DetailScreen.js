@@ -1,40 +1,36 @@
 import React from "react";
-import { Text, View, StyleSheet, Share, Button } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import ShareIcon from "./ShareIcon";
 
 // TODO : (optinal) style the text to be shared
-export default DetailScreen = props => {
-    const { navigation } = props;
-    return (
-        <View style={styles.container}>
-            <Text>
-                {navigation.getParam("summary", "No Information available")}
-            </Text>
-            <Button
-                title="Share"
-                onPress={() =>
-                    shareWeather(
-                        navigation.getParam(
-                            "summary",
-                            "No Information available"
-                        )
-                    )
-                }></Button>
-        </View>
-    );
-};
+export default class DetailScreen extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerStyle: {
+                backgroundColor: "#f4511e"
+            },
+            headerRight: () => (
+                <ShareIcon
+                    message={navigation.getParam(
+                        "summary",
+                        "No Information available"
+                    )}
+                />
+            )
+        };
+    };
 
-const shareWeather = message => {
-    Share.share(
-        {
-            message: `Hey checkout these weather details :
-    ${message}`
-        },
-        {
-            dialogTitle: "How would you like to share weather?",
-            subject: "Weather Details"
-        }
-    );
-};
+    render() {
+        const { navigation } = this.props;
+        return (
+            <View style={styles.container}>
+                <Text>
+                    {navigation.getParam("summary", "No Information available")}
+                </Text>
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     container: {
