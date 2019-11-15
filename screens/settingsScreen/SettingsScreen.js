@@ -13,7 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 export default class SettingsScreen extends React.Component {
     state = {
         units: "Metric",
-        currentLocation: true,
+        currentLocation: false,
         location: "Not Set",
         updateUnitsDialogVisible: false,
         updateLocationDialogVisible: false
@@ -139,13 +139,19 @@ export default class SettingsScreen extends React.Component {
 
     updateUnitsSetting() {
         Platform.OS === "ios"
-            ? this.props.navigation.navigate("updateSettings")
+            ? this.props.navigation.navigate("updateSettings", {
+                  updateLocation: false,
+                  value: this.state.units
+              })
             : this.setState({ updateUnitsDialogVisible: true });
     }
 
     updateLocationSetting() {
         Platform.OS === "ios"
-            ? this.props.navigation.navigate("updateSettings")
+            ? this.props.navigation.navigate("updateSettings", {
+                  updateLocation: true,
+                  value: this.state.location
+              })
             : this.setState({ updateLocationDialogVisible: true });
     }
 

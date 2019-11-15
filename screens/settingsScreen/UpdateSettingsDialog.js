@@ -12,8 +12,8 @@ export default UpdateSettingsDialog = props => {
                     value={props.location}></Dialog.Input>
             ) : (
                 <Picker selectedValue={props.units}>
-                    <Picker.Item label="Metric" value="metric" />
-                    <Picker.Item label="Imperial" value="imperial" />
+                    <Picker.Item label="Metric" value="Metric" />
+                    <Picker.Item label="Imperial" value="Imperial" />
                 </Picker>
             )}
             <Dialog.Button label="Save" onPress={props.save}></Dialog.Button>
