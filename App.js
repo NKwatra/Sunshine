@@ -12,7 +12,7 @@ const BottomNavigationBar = createMaterialBottomTabNavigator(
     {
         labeled: false,
         barStyle: { backgroundColor: "#fff" },
-        initialRouteName: "Settings",
+        initialRouteName: "Home",
         backBehavior: "order",
         // TODO : try to work out active color
         activeColor: "#ff0000",
