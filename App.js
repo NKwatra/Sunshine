@@ -1,29 +1,13 @@
 import React from "react";
-import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-import MainScreen from "./screens/mainScreen/MainScreen";
-import DetailScreen from "./screens/detailScreen/DetailScreen";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
-import SettingsScreen from "./screens/settingsScreen/SettingsScreen";
-import BottomNavigationIcon from "./BottomNavigationIcon";
-
-const AppNavigation = createStackNavigator(
-    {
-        summary: MainScreen,
-        detail: DetailScreen
-    },
-    {
-        initialRouteName: "summary",
-        navigationOptions: {
-            tabBarIcon: <BottomNavigationIcon name="home" />
-        }
-    }
-);
+import HomeTab from "./tabs/HomeTab";
+import SettingsTab from "./tabs/SettingsTab";
 
 const BottomNavigationBar = createMaterialBottomTabNavigator(
     {
-        Home: AppNavigation,
-        Settings: SettingsScreen
+        Home: HomeTab,
+        Settings: SettingsTab
     },
     {
         labeled: false,

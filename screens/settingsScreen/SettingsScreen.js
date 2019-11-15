@@ -1,12 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Switch } from "react-native";
-import BottomNavigationIcon from "../../BottomNavigationIcon";
 
 export default class SettingsScreen extends React.Component {
-    static navigationOptions = {
-        tabBarIcon: <BottomNavigationIcon name="settings" />
-    };
-
     state = {
         units: "Metric",
         currentLocation: true,
