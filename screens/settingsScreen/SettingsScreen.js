@@ -5,22 +5,62 @@ import {
     StyleSheet,
     TouchableOpacity,
     Switch,
-    Platform
+    Platform,
+    StatusBar,
+    ProgressBarAndroid,
+    AsyncStorage
 } from "react-native";
 import UpdateSettingsDialog from "./UpdateSettingsDialog";
 import { AntDesign } from "@expo/vector-icons";
+import {
+    unitsKey,
+    currentLocationKey,
+    locationKey
+} from "../../preferenceKeys";
+import * as Permissions from "expo-permissions";
 
 export default class SettingsScreen extends React.Component {
     state = {
-        units: "Metric",
-        currentLocation: false,
-        location: "Not Set",
+        [unitsKey]: "Metric",
+        [currentLocationKey]: false,
+        [locationKey]: "Not Set",
         updateUnitsDialogVisible: false,
-        updateLocationDialogVisible: false
+        updateLocationDialogVisible: false,
+        loading: true
     };
 
+    componentDidMount() {
+        this.setUpStateFromUserPreferences();
+    }
+
+    async setUpStateFromUserPreferences() {
+        const [units, currentLocation, location] = await AsyncStorage.multiGet([
+            unitsKey,
+            currentLocationKey,
+            locationKey
+        ]);
+        this.setState({
+            units: units[1],
+            currentLocation: Boolean(currentLocation[1]),
+            location: location[1],
+            loading: false
+        });
+    }
+
     render() {
-        return (
+        return this.state.loading ? (
+            <View style={styles.centredContent}>
+                {/* TODO : Find a better alternative to show loading on ios devices */}
+                <StatusBar
+                    networkActivityIndicatorVisible={this.state.loading}
+                />
+                <ProgressBarAndroid
+                    color="red"
+                    animating={this.state.loading}
+                    style={styles.progressBar}
+                />
+            </View>
+        ) : (
             <View>
                 <TouchableOpacity
                     onPress={() => this.updateUnitsSetting()}
@@ -75,7 +115,7 @@ export default class SettingsScreen extends React.Component {
                     <Switch
                         value={this.state.currentLocation}
                         onValueChange={value =>
-                            this.setState({ currentLocation: value })
+                            this.handleLocationSwitchChange(value)
                         }
                     />
                 </View>
@@ -119,19 +159,19 @@ export default class SettingsScreen extends React.Component {
                     visible={this.state.updateUnitsDialogVisible}
                     title="Please select units for temperature"
                     locationUpdate={false}
-                    units={this.state.units}
-                    save={() => console.log("save")}
+                    value={this.state.units}
                     cancel={() => this.hideDialog("updateUnitsDialogVisible")}
+                    update={newState => this.setState(newState)}
                 />
                 <UpdateSettingsDialog
                     visible={this.state.updateLocationDialogVisible}
                     title="Please select location to load weather"
                     locationUpdate={true}
-                    location={this.state.location}
-                    save={() => console.log("save")}
+                    value={this.state.location}
                     cancel={() =>
                         this.hideDialog("updateLocationDialogVisible")
                     }
+                    update={newState => this.setState(newState)}
                 />
             </View>
         );
@@ -160,6 +200,15 @@ export default class SettingsScreen extends React.Component {
             [dialogKey]: false
         });
     }
+
+    async handleLocationSwitchChange(value) {
+        if (value) {
+            const { status } = await Permissions.askAsync(Permissions.LOCATION);
+            if (status !== "granted") return;
+        }
+        this.setState({ currentLocation: value });
+        AsyncStorage.setItem(currentLocationKey, value.toString());
+    }
 }
 
 const styles = StyleSheet.create({
@@ -184,6 +233,12 @@ const styles = StyleSheet.create({
         color: "#78909C"
     },
     diffPadding: {
+        padding: 15
+    },
+    centredContent: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
         padding: 15
     }
 });

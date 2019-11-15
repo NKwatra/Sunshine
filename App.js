@@ -3,6 +3,9 @@ import { createAppContainer } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import HomeTab from "./tabs/HomeTab";
 import SettingsTab from "./tabs/SettingsTab";
+import * as Permissions from "expo-permissions";
+import { AsyncStorage } from "react-native";
+import { currentLocationKey } from "./preferenceKeys";
 
 const BottomNavigationBar = createMaterialBottomTabNavigator(
     {

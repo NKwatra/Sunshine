@@ -76,13 +76,8 @@ export default class MainScreen extends React.Component {
     async fetchWeatherData() {
         try {
             const key = API[0];
-            const [
-                units,
-                currLocation,
-                location
-            ] = await AsyncStorage.multiGet([
+            const [units, location] = await AsyncStorage.multiGet([
                 unitsKey,
-                currentLocationKey,
                 locationKey
             ]);
             let url = "https://api.weatherbit.io/v2.0/forecast/daily?";
@@ -103,7 +98,7 @@ export default class MainScreen extends React.Component {
                     throw new Error("location not available");
                 else url += `city=${location[1].replace(" ", "+")}`;
             }
-            url += units[1] === "Metric" ? "&units=M" : "$units=I";
+            url += units[1] === "Metric" ? "&units=M" : "&units=I";
             url += `&key=${key}`;
             const response = await fetch(url);
             const { data } = await response.json();
