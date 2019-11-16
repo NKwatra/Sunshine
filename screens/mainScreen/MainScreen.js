@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    View,
-    ScrollView,
-    StatusBar,
-    ProgressBarAndroid,
-    Text,
-    FlatList,
-    StyleSheet
-} from "react-native";
+import { View, ScrollView, Text, FlatList, StyleSheet } from "react-native";
 import WeatherRow from "./WeatherRow";
 import API from "./API";
 import parseData from "../../Utilities/formatWeather";
@@ -19,8 +11,10 @@ import {
     locationKey
 } from "../../preferenceKeys";
 import * as Location from "expo-location";
+import LoadingIndicator from "../../Utilities/uiUtils/LoadingIndicator";
+import ScreenContainer from "../../Utilities/ScreenContainer";
 
-export default class MainScreen extends React.Component {
+class MainScreen extends React.Component {
     state = {
         weatherForcast: [],
         loading: true,
@@ -30,25 +24,16 @@ export default class MainScreen extends React.Component {
     };
 
     componentDidMount() {
-        this.intializePreferences().then(() => {
+        this.intializePreferences().then(data => {
+            this.props.updateUnits(data[0][1]);
+            this.props.updateCurrLocation(data[1][1]);
+            this.props.updateLocation(data[2][1]);
             this.fetchWeatherData();
         });
     }
     render() {
         if (this.state.loading) {
-            return (
-                <View style={styles.centredContent}>
-                    {/* TODO : Find a better alternative to show loading on ios devices */}
-                    <StatusBar
-                        networkActivityIndicatorVisible={this.state.loading}
-                    />
-                    <ProgressBarAndroid
-                        color="red"
-                        animating={this.state.loading}
-                        style={styles.progressBar}
-                    />
-                </View>
-            );
+            return <LoadingIndicator loading={this.state.loading} />;
         } else if (this.state.error) {
             return (
                 <View style={styles.centredContent}>
@@ -74,12 +59,9 @@ export default class MainScreen extends React.Component {
     }
 
     async fetchWeatherData() {
+        const { units, location } = this.props;
         try {
             const key = API[0];
-            const [units, location] = await AsyncStorage.multiGet([
-                unitsKey,
-                locationKey
-            ]);
             let url = "https://api.weatherbit.io/v2.0/forecast/daily?";
             if (
                 (await Permissions.getAsync(Permissions.LOCATION)).status ===
@@ -89,16 +71,16 @@ export default class MainScreen extends React.Component {
                     let {
                         coords: { longitude, latitude }
                     } = await Location.getCurrentPositionAsync({});
-                    url += `&lat=${latitude}&lon=${longitude}`;
+                    url += `lat=${latitude}&lon=${longitude}`;
                 } else {
                     throw new Error("Enable location services");
                 }
             } else {
-                if (location[1] === "Not Set")
+                if (location === "Not Set")
                     throw new Error("location not available");
-                else url += `city=${location[1].replace(" ", "+")}`;
+                else url += `city=${location}`;
             }
-            url += units[1] === "Metric" ? "&units=M" : "&units=I";
+            url += units === "Metric" ? "&units=M" : "&units=I";
             url += `&key=${key}`;
             const response = await fetch(url);
             const { data } = await response.json();
@@ -134,7 +116,15 @@ export default class MainScreen extends React.Component {
                 );
             }
             data.push([locationKey, "Not Set"]);
-            await AsyncStorage.multiSet(data);
+            AsyncStorage.multiSet(data);
+            return data;
+        } else {
+            const data = await AsyncStorage.multiGet([
+                unitsKey,
+                currentLocationKey,
+                locationKey
+            ]);
+            return data;
         }
     }
 }
@@ -150,3 +140,5 @@ const styles = StyleSheet.create({
         padding: 15
     }
 });
+
+export default ScreenContainer(MainScreen);

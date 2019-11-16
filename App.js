@@ -3,9 +3,8 @@ import { createAppContainer } from "react-navigation";
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
 import HomeTab from "./tabs/HomeTab";
 import SettingsTab from "./tabs/SettingsTab";
-import * as Permissions from "expo-permissions";
-import { AsyncStorage } from "react-native";
-import { currentLocationKey } from "./preferenceKeys";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const BottomNavigationBar = createMaterialBottomTabNavigator(
     {
@@ -27,6 +26,10 @@ const AppConatiner = createAppContainer(BottomNavigationBar);
 
 export default class App extends React.Component {
     render() {
-        return <AppConatiner />;
+        return (
+            <Provider store={store}>
+                <AppConatiner />
+            </Provider>
+        );
     }
 }

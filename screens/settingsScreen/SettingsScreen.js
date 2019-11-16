@@ -6,61 +6,22 @@ import {
     TouchableOpacity,
     Switch,
     Platform,
-    StatusBar,
-    ProgressBarAndroid,
     AsyncStorage
 } from "react-native";
 import UpdateSettingsDialog from "./UpdateSettingsDialog";
 import { AntDesign } from "@expo/vector-icons";
-import {
-    unitsKey,
-    currentLocationKey,
-    locationKey
-} from "../../preferenceKeys";
+import { currentLocationKey } from "../../preferenceKeys";
 import * as Permissions from "expo-permissions";
+import ScreenContainer from "../../Utilities/ScreenContainer";
 
-export default class SettingsScreen extends React.Component {
+class SettingsScreen extends React.Component {
     state = {
-        [unitsKey]: "Metric",
-        [currentLocationKey]: false,
-        [locationKey]: "Not Set",
         updateUnitsDialogVisible: false,
-        updateLocationDialogVisible: false,
-        loading: true
+        updateLocationDialogVisible: false
     };
 
-    componentDidMount() {
-        this.setUpStateFromUserPreferences();
-    }
-
-    async setUpStateFromUserPreferences() {
-        const [units, currentLocation, location] = await AsyncStorage.multiGet([
-            unitsKey,
-            currentLocationKey,
-            locationKey
-        ]);
-        this.setState({
-            units: units[1],
-            currentLocation: Boolean(currentLocation[1]),
-            location: location[1],
-            loading: false
-        });
-    }
-
     render() {
-        return this.state.loading ? (
-            <View style={styles.centredContent}>
-                {/* TODO : Find a better alternative to show loading on ios devices */}
-                <StatusBar
-                    networkActivityIndicatorVisible={this.state.loading}
-                />
-                <ProgressBarAndroid
-                    color="red"
-                    animating={this.state.loading}
-                    style={styles.progressBar}
-                />
-            </View>
-        ) : (
+        return (
             <View>
                 <TouchableOpacity
                     onPress={() => this.updateUnitsSetting()}
@@ -83,7 +44,7 @@ export default class SettingsScreen extends React.Component {
                                 ? styles.preferenceLable
                                 : null
                         }>
-                        {this.state.units}
+                        {this.props.units}
                         {Platform.OS === "ios" ? (
                             <AntDesign name="right" tintColor="#78909c" />
                         ) : null}
@@ -113,14 +74,14 @@ export default class SettingsScreen extends React.Component {
                         USE DEVICE LOCATION
                     </Text>
                     <Switch
-                        value={this.state.currentLocation}
+                        value={Boolean(this.props.currLocation)}
                         onValueChange={value =>
                             this.handleLocationSwitchChange(value)
                         }
                     />
                 </View>
                 <View style={styles.line}></View>
-                {this.state.currentLocation ? null : (
+                {Boolean(this.props.currLocation) ? null : (
                     <TouchableOpacity>
                         <TouchableOpacity
                             style={
@@ -143,7 +104,7 @@ export default class SettingsScreen extends React.Component {
                                         ? styles.preferenceLable
                                         : null
                                 }>
-                                {this.state.location}
+                                {this.props.location}
                                 {Platform.OS === "ios" ? (
                                     <AntDesign
                                         name="right"
@@ -159,19 +120,21 @@ export default class SettingsScreen extends React.Component {
                     visible={this.state.updateUnitsDialogVisible}
                     title="Please select units for temperature"
                     locationUpdate={false}
-                    value={this.state.units}
+                    value={this.props.units}
                     cancel={() => this.hideDialog("updateUnitsDialogVisible")}
-                    update={newState => this.setState(newState)}
+                    update={newUnits => this.props.updateUnits(newUnits)}
                 />
                 <UpdateSettingsDialog
                     visible={this.state.updateLocationDialogVisible}
                     title="Please select location to load weather"
                     locationUpdate={true}
-                    value={this.state.location}
+                    value={this.props.location}
                     cancel={() =>
                         this.hideDialog("updateLocationDialogVisible")
                     }
-                    update={newState => this.setState(newState)}
+                    update={newLocation =>
+                        this.props.updateLocation(newLocation)
+                    }
                 />
             </View>
         );
@@ -181,7 +144,7 @@ export default class SettingsScreen extends React.Component {
         Platform.OS === "ios"
             ? this.props.navigation.navigate("updateSettings", {
                   updateLocation: false,
-                  value: this.state.units
+                  value: this.props.units
               })
             : this.setState({ updateUnitsDialogVisible: true });
     }
@@ -190,7 +153,7 @@ export default class SettingsScreen extends React.Component {
         Platform.OS === "ios"
             ? this.props.navigation.navigate("updateSettings", {
                   updateLocation: true,
-                  value: this.state.location
+                  value: this.props.location
               })
             : this.setState({ updateLocationDialogVisible: true });
     }
@@ -206,7 +169,7 @@ export default class SettingsScreen extends React.Component {
             const { status } = await Permissions.askAsync(Permissions.LOCATION);
             if (status !== "granted") return;
         }
-        this.setState({ currentLocation: value });
+        this.props.updateCurrLocation(value);
         AsyncStorage.setItem(currentLocationKey, value.toString());
     }
 }
@@ -242,3 +205,5 @@ const styles = StyleSheet.create({
         padding: 15
     }
 });
+
+export default ScreenContainer(SettingsScreen);

@@ -28,8 +28,9 @@ export default UpdateSettingsDialog = props => {
                 label="Save"
                 onPress={() => {
                     const key = props.locationUpdate ? locationKey : unitsKey;
-                    props.update({ [key]: value });
+                    props.update(value);
                     props.cancel();
+                    console.log("updated item :", key, value);
                     AsyncStorage.setItem(key, value);
                 }}></Dialog.Button>
             <Dialog.Button
