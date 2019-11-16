@@ -5,54 +5,116 @@ import {
     TouchableOpacity,
     TextInput,
     StyleSheet,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    AsyncStorage
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { locationKey, unitsKey } from "../../preferenceKeys";
 
-export default UpdateSettings = props => {
-    const [value, updatevalue] = useState(props.navigation.getParam("value"));
-    return (
-        <View style={styles.mainContainer}>
-            {props.navigation.getParam("updateLocation") ? (
-                <View style={styles.locationContainer}>
-                    <KeyboardAvoidingView>
-                        <Text style={styles.locationPrompt}>
-                            Please enter the location (city, country)
-                        </Text>
-                        <TextInput
-                            autoFocus
-                            defaultValue={props.navigation.getParam("value")}
-                            value={value}
-                            onChangeText={newValue => updateLocation(newValue)}
-                            onSubmitEditing={() => console.log(location)}
-                            style={styles.locationInput}></TextInput>
-                    </KeyboardAvoidingView>
-                </View>
-            ) : (
-                <View>
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => updatevalue("Metric")}>
-                        <Text style={styles.unitsOption}>Metric </Text>
-                        {value === "Metric" ? (
-                            <Feather name="check" color="#ff0000" size={25} />
-                        ) : null}
-                    </TouchableOpacity>
-                    <View style={styles.line} />
-                    <TouchableOpacity
-                        style={styles.row}
-                        onPress={() => updatevalue("Imperial")}>
-                        <Text style={styles.unitsOption}>Imperial </Text>
-                        {value === "Imperial" ? (
-                            <Feather name="check" color="#ff0000" size={25} />
-                        ) : null}
-                    </TouchableOpacity>
-                    <View style={styles.line} />
-                </View>
-            )}
-        </View>
-    );
-};
+export default class UpdateSettings extends React.Component {
+    state = {
+        value: this.props.navigation.getParam("value")
+    };
+
+    render() {
+        return (
+            <View style={styles.mainContainer}>
+                {this.props.navigation.getParam("updateLocation") ? (
+                    <View style={styles.locationContainer}>
+                        <KeyboardAvoidingView>
+                            <Text style={styles.locationPrompt}>
+                                Please enter the location (city, country)
+                            </Text>
+                            <TextInput
+                                autoFocus
+                                defaultValue={this.props.navigation.getParam(
+                                    "value"
+                                )}
+                                value={this.state.value}
+                                onChangeText={newValue =>
+                                    this.setState({
+                                        value: newValue
+                                    })
+                                }
+                                onSubmitEditing={() => {
+                                    const update = this.props.navigation.getParam(
+                                        "update"
+                                    );
+                                    update(this.state.value);
+                                    AsyncStorage.setItem(
+                                        locationKey,
+                                        this.state.value
+                                    );
+                                }}
+                                style={styles.locationInput}></TextInput>
+                        </KeyboardAvoidingView>
+                    </View>
+                ) : (
+                    <View>
+                        <TouchableOpacity
+                            style={styles.row}
+                            onPress={() => {
+                                this.setState(
+                                    {
+                                        value: "Metric"
+                                    },
+                                    () => {
+                                        const update = this.props.navigation.getParam(
+                                            "update"
+                                        );
+                                        update(this.state.value);
+                                        AsyncStorage.setItem(
+                                            unitsKey,
+                                            this.state.value
+                                        );
+                                    }
+                                );
+                            }}>
+                            <Text style={styles.unitsOption}>Metric </Text>
+                            {this.state.value === "Metric" ? (
+                                <Feather
+                                    name="check"
+                                    color="#ff0000"
+                                    size={25}
+                                />
+                            ) : null}
+                        </TouchableOpacity>
+                        <View style={styles.line} />
+                        <TouchableOpacity
+                            style={styles.row}
+                            onPress={() => {
+                                this.setState(
+                                    {
+                                        value: "Imperial"
+                                    },
+                                    () => {
+                                        const update = this.props.navigation.getParam(
+                                            "update"
+                                        );
+                                        update(this.state.value);
+                                        AsyncStorage.setItem(
+                                            unitsKey,
+                                            this.state.value
+                                        );
+                                    }
+                                );
+                            }}>
+                            <Text style={styles.unitsOption}>Imperial </Text>
+                            {this.state.value === "Imperial" ? (
+                                <Feather
+                                    name="check"
+                                    color="#ff0000"
+                                    size={25}
+                                />
+                            ) : null}
+                        </TouchableOpacity>
+                        <View style={styles.line} />
+                    </View>
+                )}
+            </View>
+        );
+    }
+}
 
 const styles = StyleSheet.create({
     locationContainer: {

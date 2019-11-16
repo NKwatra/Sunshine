@@ -74,14 +74,14 @@ class SettingsScreen extends React.Component {
                         USE DEVICE LOCATION
                     </Text>
                     <Switch
-                        value={Boolean(this.props.currLocation)}
+                        value={this.props.currLocation === "true"}
                         onValueChange={value =>
                             this.handleLocationSwitchChange(value)
                         }
                     />
                 </View>
                 <View style={styles.line}></View>
-                {Boolean(this.props.currLocation) ? null : (
+                {this.props.currLocation === "true" ? null : (
                     <TouchableOpacity>
                         <TouchableOpacity
                             style={
@@ -144,7 +144,8 @@ class SettingsScreen extends React.Component {
         Platform.OS === "ios"
             ? this.props.navigation.navigate("updateSettings", {
                   updateLocation: false,
-                  value: this.props.units
+                  value: this.props.units,
+                  update: newUnits => this.props.updateUnits(newUnits)
               })
             : this.setState({ updateUnitsDialogVisible: true });
     }
@@ -153,7 +154,8 @@ class SettingsScreen extends React.Component {
         Platform.OS === "ios"
             ? this.props.navigation.navigate("updateSettings", {
                   updateLocation: true,
-                  value: this.props.location
+                  value: this.props.location,
+                  update: newLocation => this.props.updateLocation(newLocation)
               })
             : this.setState({ updateLocationDialogVisible: true });
     }
@@ -169,7 +171,7 @@ class SettingsScreen extends React.Component {
             const { status } = await Permissions.askAsync(Permissions.LOCATION);
             if (status !== "granted") return;
         }
-        this.props.updateCurrLocation(value);
+        this.props.updateCurrLocation(value.toString());
         AsyncStorage.setItem(currentLocationKey, value.toString());
     }
 }

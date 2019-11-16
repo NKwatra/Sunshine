@@ -89,7 +89,6 @@ class MainScreen extends React.Component {
                 loading: false
             });
         } catch (err) {
-            console.log(err.message);
             let errorMessage =
                 err.message === "location not available"
                     ? "No location set to search weather"
