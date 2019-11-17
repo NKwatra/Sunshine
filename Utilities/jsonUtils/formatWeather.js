@@ -1,10 +1,8 @@
-export default parseData = (data, units) => {
+export const parseData = (Data, units) => {
     const weatherUnit = units === "Metric" ? "℃" : "℉";
+    let data = extractFieldsFromJson(Data);
     const weatherForcast = data.map(
-        (
-            { max_temp, min_temp, valid_date, weather: { description } },
-            index
-        ) => {
+        ({ max_temp, min_temp, valid_date, description }, index) => {
             const currentDate = new Date(valid_date);
             let month, date, day;
             if (index > 1) {
@@ -164,4 +162,30 @@ const getDay = (day, index) => {
         }
     }
     return Day;
+};
+
+export const extractFieldsFromJson = data => {
+    return data.reduce((result, dailyWeather) => {
+        const {
+            valid_date,
+            wind_spd,
+            max_temp,
+            min_temp,
+            pres,
+            rh,
+            weather: { description }
+        } = dailyWeather;
+        return [
+            ...result,
+            {
+                valid_date,
+                wind_spd,
+                max_temp,
+                min_temp,
+                pres,
+                rh,
+                description
+            }
+        ];
+    }, []);
 };
