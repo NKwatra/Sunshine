@@ -12,7 +12,6 @@ import UpdateSettingsDialog from "./UpdateSettingsDialog";
 import { AntDesign } from "@expo/vector-icons";
 import { currentLocationKey } from "../../preferenceKeys";
 import * as Permissions from "expo-permissions";
-import ScreenContainer from "../../Utilities/ScreenContainer";
 
 class SettingsScreen extends React.Component {
     state = {
@@ -208,4 +207,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ScreenContainer(SettingsScreen);
+export default SettingsScreen;

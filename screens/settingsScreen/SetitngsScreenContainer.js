@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
-import * as Actions from "../redux/actions";
+import * as Actions from "../../redux/actions";
+import SettingsScreen from "./SettingsScreen";
 
 const mapStateToProps = state => ({
     units: state.units,
@@ -15,6 +16,4 @@ const mapDispatchToProps = dispatch => ({
         dispatch(Actions.updateLocationAction(newLocaion))
 });
 
-export default function(screen) {
-    return connect(mapStateToProps, mapDispatchToProps)(screen);
-}
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

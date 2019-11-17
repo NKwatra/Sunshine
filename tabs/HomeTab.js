@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
-import MainScreen from "../screens/mainScreen/MainScreen";
+import MainScreenContainer from "../screens/mainScreen/MainScreenContainer";
 import DetailScreen from "../screens/detailScreen/DetailScreen";
 import BottomNavigationIcon from "./BottomNavigationIcon";
 
 export default HomeTab = createStackNavigator(
     {
-        summary: MainScreen,
+        summary: MainScreenContainer,
         detail: DetailScreen
     },
     {

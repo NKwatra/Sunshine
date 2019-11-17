@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation-stack";
-import SettingsScreen from "../screens/settingsScreen/SettingsScreen";
+import SettingsScreenContainer from "../screens/settingsScreen/SetitngsScreenContainer";
 import UpdateSettings from "../screens/settingsScreen/UpdateSettings";
 import BottomNavigationIcon from "./BottomNavigationIcon";
 
 export default SettingsTab = createStackNavigator(
     {
-        settings: SettingsScreen,
+        settings: SettingsScreenContainer,
         updateSettings: UpdateSettings
     },
     {

@@ -22,8 +22,39 @@ const locationReducer = (state = "Not set", action) => {
     return state;
 };
 
+const mainScreenLoadingReducer = action => {
+    return action.payload.loading;
+};
+
+const mainScreenErrorReducer = action => {
+    return { ...action.payload };
+};
+
+const mainScreenWeatherReducer = action => {
+    return { ...action.payload };
+};
+
+const mainScreenReducer = (
+    state = {
+        loading: true,
+        weatherForecast: [],
+        error: false,
+        errorMessage: undefined
+    },
+    action
+) => {
+    if (action.type === Actions.UPDATE_LOADING) {
+        return { ...state, loading: mainScreenLoadingReducer(action) };
+    } else if (action.type === Actions.UPDATE_ERROR) {
+        return { ...state, ...mainScreenErrorReducer(action) };
+    } else if (action.type === Actions.UPDATE_WEATHER) {
+        return { ...state, ...mainScreenWeatherReducer(action) };
+    } else return state;
+};
+
 export default combineReducers({
     units: unitsReducer,
     currLocation: currLocationReducer,
-    location: locationReducer
+    location: locationReducer,
+    mainScreen: mainScreenReducer
 });
