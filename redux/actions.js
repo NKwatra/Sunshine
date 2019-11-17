@@ -1,9 +1,10 @@
 import { fetchWeather } from "../Utilities/networkUtils/fetchWeather";
 import {
     parseData,
-    extractFieldsFromJson
+    extractFieldsFromJson,
+    parseDbData
 } from "../Utilities/jsonUtils/formatWeather";
-import { insert } from "../Utilities/dbUtils/DbHelper";
+import { insert, read } from "../Utilities/dbUtils/DbHelper";
 
 export const UPDATE_UNITS = "updateUnits",
     UPDATE_CURR_LOCATION = "updateCurrentLocation",

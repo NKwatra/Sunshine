@@ -9,6 +9,8 @@ import {
     locationKey
 } from "../../preferenceKeys";
 import LoadingIndicator from "../../Utilities/uiUtils/LoadingIndicator";
+import { read } from "../../Utilities/dbUtils/DbHelper";
+import { parseDbData } from "../../Utilities/jsonUtils/formatWeather";
 
 class MainScreen extends React.Component {
     componentDidMount() {
@@ -16,7 +18,16 @@ class MainScreen extends React.Component {
             this.props.updateUnits(data[0][1]);
             this.props.updateCurrLocation(data[1][1]);
             this.props.updateLocation(data[2][1]);
-            this.props.updateWeather();
+            this.props.updateLoading(true);
+            read((result, error) => {
+                if (result !== null) {
+                    const data = parseDbData(result, this.props.units);
+                    this.props.updateForecast(data, false);
+                } else if (error !== null) {
+                    console.log(error);
+                    this.props.updateWeather();
+                }
+            });
         });
     }
     render() {

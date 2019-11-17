@@ -10,7 +10,7 @@ export const insert = (data, units) => {
             max_temp REAL NOT NULL,
             pressure REAL NOT NULL,
             humidity REAL NOT NULL,
-            date TEXT NOT NULL,
+            valid_date TEXT NOT NULL,
             wind_speed REAL NOT NULL,
             description TEXT NOT NULL,
             units TEXT NOT NULL);`);
@@ -28,7 +28,7 @@ export const insert = (data, units) => {
                 err => console.log(err),
                 () => {
                     let queryString =
-                        "INSERT INTO weather (min_temp,max_temp,pressure,humidity,date,wind_speed,description,units) VALUES ";
+                        "INSERT INTO weather (min_temp,max_temp,pressure,humidity,valid_date,wind_speed,description,units) VALUES ";
                     let values = [];
                     data.forEach(dailyWeather => {
                         queryString += "(?,?,?,?,?,?,?,?), ";
@@ -52,4 +52,20 @@ export const insert = (data, units) => {
             );
         }
     );
+};
+
+export const read = fn => {
+    const db = SQlite.openDatabase("sunshine.db");
+    db.transaction(tx => {
+        tx.executeSql(
+            "SELECT * from weather",
+            null,
+            (_, { rows: { _array } }) => {
+                fn(_array);
+            },
+            (_, error) => {
+                fn(null, error);
+            }
+        );
+    });
 };

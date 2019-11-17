@@ -1,6 +1,10 @@
 export const parseData = (Data, units) => {
     const weatherUnit = units === "Metric" ? "℃" : "℉";
     let data = extractFieldsFromJson(Data);
+    return formatData(data, weatherUnit);
+};
+
+const formatData = (data, weatherUnit) => {
     const weatherForcast = data.map(
         ({ max_temp, min_temp, valid_date, description }, index) => {
             const currentDate = new Date(valid_date);
@@ -14,13 +18,21 @@ export const parseData = (Data, units) => {
             }
 
             if (index === 0)
-                return `Today, ${month} ${date} - ${description} - ${max_temp}${weatherUnit} / ${min_temp}${weatherUnit}`;
+                return `Today, ${month} ${date} - ${description} - ${max_temp.toFixed(
+                    1
+                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
             else if (index === 1)
-                return `Tomorrow - ${description} - ${max_temp}${weatherUnit} / ${min_temp}${weatherUnit}`;
+                return `Tomorrow - ${description} - ${max_temp.toFixed(
+                    1
+                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
             else if (index >= 2 && index <= 6)
-                return `${day} - ${description} - ${max_temp}${weatherUnit} / ${min_temp}${weatherUnit}`;
+                return `${day} - ${description} - ${max_temp.toFixed(
+                    1
+                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
             else
-                return `${day}, ${month} ${date} - ${description} - ${max_temp}${weatherUnit} / ${min_temp}${weatherUnit}`;
+                return `${day}, ${month} ${date} - ${description} - ${max_temp.toFixed(
+                    1
+                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
         }
     );
     return weatherForcast;
@@ -188,4 +200,24 @@ export const extractFieldsFromJson = data => {
             }
         ];
     }, []);
+};
+
+export const parseDbData = (data, units) => {
+    let weatherUnits = units === "Metric" ? "℃" : "℉";
+    if (data[0].units !== units) {
+        if (data[0].units === "Metric") {
+            data = data.map(row => ({
+                ...row,
+                max_temp: (9 * row.max_temp) / 5 + 32,
+                min_temp: (9 * row.min_temp) / 5 + 32
+            }));
+        } else {
+            data = data.map(row => ({
+                ...row,
+                max_temp: ((row.max_temp - 32) * 5) / 9,
+                min_temp: ((row.min_temp - 32) * 5) / 9
+            }));
+        }
+    }
+    return formatData(data, weatherUnits);
 };
