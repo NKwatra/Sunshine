@@ -41,6 +41,7 @@ export default class UpdateSettings extends React.Component {
                                         "update"
                                     );
                                     update(this.state.value);
+                                    this.props.navigation.getParam("refetch")();
                                     AsyncStorage.setItem(
                                         locationKey,
                                         this.state.value
@@ -63,6 +64,9 @@ export default class UpdateSettings extends React.Component {
                                             "update"
                                         );
                                         update(this.state.value);
+                                        this.props.navigation.getParam(
+                                            "refetch"
+                                        )();
                                         AsyncStorage.setItem(
                                             unitsKey,
                                             this.state.value
@@ -92,6 +96,9 @@ export default class UpdateSettings extends React.Component {
                                             "update"
                                         );
                                         update(this.state.value);
+                                        this.props.navigation.getParam(
+                                            "refetch"
+                                        )();
                                         AsyncStorage.setItem(
                                             unitsKey,
                                             this.state.value

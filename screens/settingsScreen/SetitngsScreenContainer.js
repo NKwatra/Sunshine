@@ -13,7 +13,8 @@ const mapDispatchToProps = dispatch => ({
     updateCurrLocation: newLocation =>
         dispatch(Actions.updateCurrLocationAction(newLocation)),
     updateLocation: newLocaion =>
-        dispatch(Actions.updateLocationAction(newLocaion))
+        dispatch(Actions.updateLocationAction(newLocaion)),
+    updateWeather: () => dispatch(Actions.fetchNewWeather())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

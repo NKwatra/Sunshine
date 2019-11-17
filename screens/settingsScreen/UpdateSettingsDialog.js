@@ -30,7 +30,7 @@ export default UpdateSettingsDialog = props => {
                     const key = props.locationUpdate ? locationKey : unitsKey;
                     props.update(value);
                     props.cancel();
-                    console.log("updated item :", key, value);
+                    props.refetch();
                     AsyncStorage.setItem(key, value);
                 }}></Dialog.Button>
             <Dialog.Button

@@ -122,6 +122,7 @@ class SettingsScreen extends React.Component {
                     value={this.props.units}
                     cancel={() => this.hideDialog("updateUnitsDialogVisible")}
                     update={newUnits => this.props.updateUnits(newUnits)}
+                    refetch={this.props.updateWeather}
                 />
                 <UpdateSettingsDialog
                     visible={this.state.updateLocationDialogVisible}
@@ -134,6 +135,7 @@ class SettingsScreen extends React.Component {
                     update={newLocation =>
                         this.props.updateLocation(newLocation)
                     }
+                    refetch={this.props.updateWeather}
                 />
             </View>
         );
@@ -144,7 +146,8 @@ class SettingsScreen extends React.Component {
             ? this.props.navigation.navigate("updateSettings", {
                   updateLocation: false,
                   value: this.props.units,
-                  update: newUnits => this.props.updateUnits(newUnits)
+                  update: newUnits => this.props.updateUnits(newUnits),
+                  refetch: this.props.updateWeather
               })
             : this.setState({ updateUnitsDialogVisible: true });
     }
@@ -154,7 +157,8 @@ class SettingsScreen extends React.Component {
             ? this.props.navigation.navigate("updateSettings", {
                   updateLocation: true,
                   value: this.props.location,
-                  update: newLocation => this.props.updateLocation(newLocation)
+                  update: newLocation => this.props.updateLocation(newLocation),
+                  refetch: this.props.updateWeather
               })
             : this.setState({ updateLocationDialogVisible: true });
     }
@@ -172,6 +176,7 @@ class SettingsScreen extends React.Component {
         }
         this.props.updateCurrLocation(value.toString());
         AsyncStorage.setItem(currentLocationKey, value.toString());
+        this.props.updateWeather();
     }
 }
 

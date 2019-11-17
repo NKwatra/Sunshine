@@ -83,7 +83,7 @@ export const fetchNewWeather = () => {
             url += `&key=${key}`;
             const response = await fetch(url);
             const { data } = await response.json();
-            return dispatch(updateWeatherAction(parseData(data), false));
+            return dispatch(updateWeatherAction(parseData(data, units), false));
         } catch (err) {
             let errorMessage = err.message;
             return dispatch(updateErrorAction(true, errorMessage));
