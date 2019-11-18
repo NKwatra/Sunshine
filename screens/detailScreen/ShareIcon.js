@@ -13,10 +13,14 @@ export default ShareIcon = props => {
 };
 
 const shareWeather = message => {
+    const weather = `${message.date}
+    Weather: ${message.description}
+    Maximun Temp : ${message.max_temp}
+    Minimum Temp: ${message.min_temp}`;
     Share.share(
         {
             message: `Hey checkout these weather details :
-    ${message}`
+    ${weather}`
         },
         {
             dialogTitle: "How would you like to share weather?",

@@ -53,11 +53,18 @@ export const updateErrorAction = (
     }
 });
 
-export const updateWeatherAction = (newForecast, newLoadingStatus) => ({
+export const updateWeatherAction = (
+    newForecast,
+    newLoadingStatus,
+    newErrorStatus,
+    newErrorMessage
+) => ({
     type: UPDATE_WEATHER,
     payload: {
         weatherForecast: newForecast,
-        loading: newLoadingStatus
+        loading: newLoadingStatus,
+        error: newErrorStatus,
+        errorMessage: newErrorMessage
     }
 });
 
@@ -72,7 +79,12 @@ export const fetchNewWeather = () => {
             const data = extractFieldsFromJson(value);
             insert(data, state.units);
             return dispatch(
-                updateWeatherAction(parseData(value, state.units), false)
+                updateWeatherAction(
+                    parseData(value, state.units),
+                    false,
+                    false,
+                    ""
+                )
             );
         }
     };

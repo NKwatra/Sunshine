@@ -45,7 +45,7 @@ class MainScreen extends React.Component {
             read((result, error) => {
                 if (result !== null) {
                     const data = parseDbData(result, this.props.units);
-                    this.props.updateForecast(data, false);
+                    this.props.updateForecast(data, false, false, "");
                 } else if (error !== null) {
                     console.log(error);
                     this.props.updateWeather();

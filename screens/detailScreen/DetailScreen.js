@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+    Text,
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    ScrollView
+} from "react-native";
 import ShareIcon from "./ShareIcon";
 import Row from "./Row";
 import Styles from "../../Utilities/uiUtils/styles";
@@ -33,9 +40,8 @@ export default class DetailScreen extends React.Component {
 
     render() {
         const summary = this.props.navigation.getParam("summary");
-        console.log(this.props);
         return (
-            <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
                 <TouchableOpacity style={styles.largeWeatherContainer}>
                     <View>
                         <Text style={[styles.textCenter, styles.date]}>
@@ -90,7 +96,7 @@ export default class DetailScreen extends React.Component {
                         unit={this.props.units === "Metric" ? "m/s" : "mph"}
                     />
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }

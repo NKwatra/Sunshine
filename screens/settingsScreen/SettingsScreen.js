@@ -59,9 +59,7 @@ class SettingsScreen extends React.Component {
                         {this.props.units}
                         {Platform.OS === "ios" ? (
                             <AntDesign name="right" tintColor="#78909c" />
-                        ) : (
-                            styles.largeFont
-                        )}
+                        ) : null}
                     </Text>
                 </TouchableOpacity>
                 <View

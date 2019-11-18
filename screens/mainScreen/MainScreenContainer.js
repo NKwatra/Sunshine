@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => ({
         dispatch(Actions.updateLocationAction(newLocation)),
     updateWeather: () => dispatch(Actions.fetchNewWeather()),
     updateLoading: value => dispatch(Actions.updateLoadingAction(value)),
-    updateForecast: (weather, loading) =>
-        dispatch(Actions.updateWeatherAction(weather, loading))
+    updateForecast: (weather, loading, error, errorMsg) =>
+        dispatch(Actions.updateWeatherAction(weather, loading, error, errorMsg))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
