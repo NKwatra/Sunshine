@@ -56,7 +56,7 @@ class MainScreen extends React.Component {
                                 navigation={this.props.navigation}
                             />
                         )}
-                        keyExtractor={item => item}
+                        keyExtractor={item => item.date}
                     />
                 </ScrollView>
             );

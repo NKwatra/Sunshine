@@ -13,6 +13,7 @@ export const insert = (data, units) => {
             valid_date TEXT NOT NULL,
             wind_speed REAL NOT NULL,
             description TEXT NOT NULL,
+            icon INTEGER NOT NULL,
             units TEXT NOT NULL);`);
         },
         error => console.log("error in table creation", error),
@@ -28,10 +29,10 @@ export const insert = (data, units) => {
                 err => console.log(err),
                 () => {
                     let queryString =
-                        "INSERT INTO weather (min_temp,max_temp,pressure,humidity,valid_date,wind_speed,description,units) VALUES ";
+                        "INSERT INTO weather (min_temp,max_temp,pressure,humidity,valid_date,wind_speed,description,units,icon) VALUES ";
                     let values = [];
                     data.forEach(dailyWeather => {
-                        queryString += "(?,?,?,?,?,?,?,?), ";
+                        queryString += "(?,?,?,?,?,?,?,?,?), ";
                         values.push(
                             dailyWeather.min_temp,
                             dailyWeather.max_temp,
@@ -40,7 +41,8 @@ export const insert = (data, units) => {
                             dailyWeather.valid_date,
                             dailyWeather.wind_spd,
                             dailyWeather.description,
-                            units
+                            units,
+                            dailyWeather.icon
                         );
                     });
                     queryString = queryString.slice(0, queryString.length - 2);

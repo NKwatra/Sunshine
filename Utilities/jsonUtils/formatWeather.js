@@ -6,9 +6,10 @@ export const parseData = (Data, units) => {
 
 const formatData = (data, weatherUnit) => {
     const weatherForcast = data.map(
-        ({ max_temp, min_temp, valid_date, description }, index) => {
+        ({ max_temp, min_temp, valid_date, description, icon }, index) => {
             const currentDate = new Date(valid_date);
-            let month, date, day;
+            let month, date, day, weatherIcon;
+            weatherIcon = getIcon(icon);
             if (index > 1) {
                 day = getDay(currentDate.getDay(), index);
             }
@@ -18,21 +19,37 @@ const formatData = (data, weatherUnit) => {
             }
 
             if (index === 0)
-                return `Today, ${month} ${date} - ${description} - ${max_temp.toFixed(
-                    1
-                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
+                return {
+                    date: `Today, ${month} ${date}`,
+                    description: description,
+                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    icon: weatherIcon
+                };
             else if (index === 1)
-                return `Tomorrow - ${description} - ${max_temp.toFixed(
-                    1
-                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
+                return {
+                    date: "Tomorrow",
+                    description: description,
+                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    icon: weatherIcon
+                };
             else if (index >= 2 && index <= 6)
-                return `${day} - ${description} - ${max_temp.toFixed(
-                    1
-                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
+                return {
+                    date: day,
+                    description: description,
+                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    icon: weatherIcon
+                };
             else
-                return `${day}, ${month} ${date} - ${description} - ${max_temp.toFixed(
-                    1
-                )}${weatherUnit} / ${min_temp.toFixed(1)}${weatherUnit}`;
+                return {
+                    date: `${day}, ${month} ${date}`,
+                    description: description,
+                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    icon: weatherIcon
+                };
         }
     );
     return weatherForcast;
@@ -185,7 +202,8 @@ export const extractFieldsFromJson = data => {
             min_temp,
             pres,
             rh,
-            weather: { description }
+            weather: { description },
+            weather: { code }
         } = dailyWeather;
         return [
             ...result,
@@ -196,10 +214,92 @@ export const extractFieldsFromJson = data => {
                 min_temp,
                 pres,
                 rh,
-                description
+                description,
+                icon: code
             }
         ];
     }, []);
+};
+
+const getIcon = code => {
+    switch (code) {
+        case 200:
+            return require("../../assets/images/weather/t01d.png");
+        case 201:
+            return require("../../assets/images/weather/t02d.png");
+        case 202:
+            return require("../../assets/images/weather/t03d.png");
+        case 230:
+            return require("../../assets/images/weather/t04d.png");
+        case 231:
+            return require("../../assets/images/weather/t04d.png");
+        case 232:
+            return require("../../assets/images/weather/t04d.png");
+        case 233:
+            return require("../../assets/images/weather/t05d.png");
+        case 300:
+            return require("../../assets/images/weather/d01d.png");
+        case 301:
+            return require("../../assets/images/weather/d02d.png");
+        case 302:
+            return require("../../assets/images/weather/d03d.png");
+        case 500:
+            return require("../../assets/images/weather/r01d.png");
+        case 501:
+            return require("../../assets/images/weather/r02d.png");
+        case 502:
+            return require("../../assets/images/weather/r03d.png");
+        case 511:
+            return require("../../assets/images/weather/f01d.png");
+        case 520:
+            return require("../../assets/images/weather/r04d.png");
+        case 521:
+            return require("../../assets/images/weather/r05d.png");
+        case 522:
+            return require("../../assets/images/weather/r06d.png");
+        case 600:
+            return require("../../assets/images/weather/s01d.png");
+        case 601:
+            return require("../../assets/images/weather/s02d.png");
+        case 602:
+            return require("../../assets/images/weather/s03d.png");
+        case 610:
+            return require("../../assets/images/weather/s04d.png");
+        case 611:
+            return require("../../assets/images/weather/s05d.png");
+        case 612:
+            return require("../../assets/images/weather/s05d.png");
+        case 621:
+            return require("../../assets/images/weather/s01d.png");
+        case 622:
+            return require("../../assets/images/weather/s02d.png");
+        case 623:
+            return require("../../assets/images/weather/s06d.png");
+        case 700:
+            return require("../../assets/images/weather/a01d.png");
+        case 711:
+            return require("../../assets/images/weather/a02d.png");
+        case 721:
+            return require("../../assets/images/weather/a03d.png");
+        case 731:
+            return require("../../assets/images/weather/a04d.png");
+        case 741:
+            return require("../../assets/images/weather/a05d.png");
+        case 751:
+            return require("../../assets/images/weather/a06d.png");
+        case 800:
+            return require("../../assets/images/weather/c01d.png");
+        case 801:
+            return require("../../assets/images/weather/c02d.png");
+        case 802:
+            return require("../../assets/images/weather/c02d.png");
+        case 803:
+            return require("../../assets/images/weather/c03d.png");
+        case 804:
+            return require("../../assets/images/weather/c04d.png");
+        case 900:
+            return require("../../assets/images/weather/u00d.png");
+    }
 };
 
 export const parseDbData = (data, units) => {
