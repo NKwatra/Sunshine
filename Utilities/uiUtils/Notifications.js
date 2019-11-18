@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 const channelId = "updates";
 
-export default showNotification = () => {
+export default showNotification = weather => {
     if (Platform.OS === "android") {
         Notifications.createChannelAndroidAsync(channelId, {
             name: "Updates",
@@ -15,10 +15,11 @@ export default showNotification = () => {
         });
     }
 
+    let Message = `${weather.date}, ${weather.description} - ${weather.max_temp} / ${weather.min_temp}`;
+
     Notifications.presentLocalNotificationAsync({
         title: "Weather Updates",
-        body:
-            "Sunshine recently updated weather forecast, do check it out before you go out",
+        body: Message,
         ios: {
             sound: true
         },

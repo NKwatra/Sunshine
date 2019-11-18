@@ -6,6 +6,21 @@ import SettingsTab from "./tabs/SettingsTab";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import styles from "./Utilities/uiUtils/styles";
+import * as BackgroundFetch from "expo-background-fetch";
+import * as TaskManager from "expo-task-manager";
+import loadWeatherinBackground from "./BackgroundTasks";
+
+const UPDATE_WEATHER_TASK = "updateWeatherTask";
+
+TaskManager.defineTask(UPDATE_WEATHER_TASK, () => {
+    loadWeatherinBackground();
+});
+
+BackgroundFetch.registerTaskAsync(UPDATE_WEATHER_TASK, {
+    minimumInterval: 21600,
+    stopOnTerminate: false,
+    startOnBoot: true
+});
 
 const BottomNavigationBar = createMaterialBottomTabNavigator(
     {

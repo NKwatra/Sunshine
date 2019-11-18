@@ -43,11 +43,10 @@ class MainScreen extends React.Component {
             this.props.updateLocation(data[2][1]);
             this.props.updateLoading(true);
             read((result, error) => {
-                if (result !== null) {
+                if (result !== null && result.length > 0) {
                     const data = parseDbData(result, this.props.units);
                     this.props.updateForecast(data, false, false, "");
-                } else if (error !== null) {
-                    console.log(error);
+                } else {
                     this.props.updateWeather();
                 }
             });

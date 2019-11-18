@@ -4,7 +4,7 @@ export const parseData = (Data, units) => {
     return formatData(data, weatherUnit);
 };
 
-const formatData = (data, weatherUnit) => {
+export const formatData = (data, weatherUnit) => {
     const weatherForcast = data.map(
         (
             {
