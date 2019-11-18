@@ -18,8 +18,8 @@ const WeatherRow = props => {
                     </View>
                 </View>
                 <View style={[styles.row, styles.smallSection, styles.spaced]}>
-                    <Text>{max_temp}</Text>
-                    <Text>{min_temp}</Text>
+                    <Text style={styles.temperature}>{max_temp}</Text>
+                    <Text style={styles.temperature}>{min_temp}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -37,19 +37,17 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     item: {
-        paddingLeft: 20,
-        paddingRight: 20,
-        paddingTop: 10,
-        paddingBottom: 10
+        padding: 15
     },
     row: {
-        flexDirection: "row"
+        flexDirection: "row",
+        alignItems: "center"
     },
     largeSection: {
-        width: "60%"
+        width: "65%"
     },
     smallSection: {
-        width: "40%"
+        width: "35%"
     },
     spaced: {
         justifyContent: "space-between"
@@ -58,6 +56,9 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         marginRight: 20
+    },
+    temperature: {
+        fontSize: 20
     }
 });
 

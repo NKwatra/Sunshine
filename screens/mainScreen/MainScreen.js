@@ -1,5 +1,12 @@
 import React from "react";
-import { View, ScrollView, Text, FlatList, StyleSheet } from "react-native";
+import {
+    View,
+    ScrollView,
+    Text,
+    FlatList,
+    StyleSheet,
+    Image
+} from "react-native";
 import WeatherRow from "./WeatherRow";
 import { AsyncStorage } from "react-native";
 import * as Permissions from "expo-permissions";
@@ -48,8 +55,45 @@ class MainScreen extends React.Component {
         } else {
             return (
                 <ScrollView style={styles.container}>
+                    <View>
+                        <View>
+                            <Text style={[styles.textCenter, styles.date]}>
+                                {weatherForecast[0].date}
+                            </Text>
+                        </View>
+                        <View style={styles.row}>
+                            <View style={styles.halfWidth}>
+                                <View>
+                                    <Image
+                                        source={weatherForecast[0].icon}
+                                        style={styles.largeIcon}
+                                    />
+                                    <Text style={styles.textCenter}>
+                                        {weatherForecast[0].description}
+                                    </Text>
+                                </View>
+                            </View>
+                            <View
+                                style={[
+                                    styles.halfWidth,
+                                    styles.centredContent
+                                ]}>
+                                <Text
+                                    style={[
+                                        styles.textCenter,
+                                        styles.largeText
+                                    ]}>
+                                    {weatherForecast[0].max_temp}
+                                </Text>
+                                <Text
+                                    style={[styles.textCenter, styles.MinTemp]}>
+                                    {weatherForecast[0].min_temp}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
                     <FlatList
-                        data={weatherForecast}
+                        data={weatherForecast.slice(1, weatherForecast.length)}
                         renderItem={({ item }) => (
                             <WeatherRow
                                 summary={item}
@@ -99,6 +143,31 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15
+    },
+    textCenter: {
+        textAlign: "center",
+        fontSize: 20
+    },
+    row: {
+        flexDirection: "row"
+    },
+    halfWidth: {
+        width: "50%"
+    },
+    largeIcon: {
+        width: 100,
+        height: 100,
+        marginLeft: "20%"
+    },
+    largeText: {
+        fontSize: 50
+    },
+    MinTemp: {
+        marginTop: 10
+    },
+    date: {
+        marginTop: 10,
+        fontSize: 25
     }
 });
 

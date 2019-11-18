@@ -22,32 +22,32 @@ const formatData = (data, weatherUnit) => {
                 return {
                     date: `Today, ${month} ${date}`,
                     description: description,
-                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
-                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
                     icon: weatherIcon
                 };
             else if (index === 1)
                 return {
                     date: "Tomorrow",
                     description: description,
-                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
-                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
                     icon: weatherIcon
                 };
             else if (index >= 2 && index <= 6)
                 return {
                     date: day,
                     description: description,
-                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
-                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
                     icon: weatherIcon
                 };
             else
                 return {
                     date: `${day}, ${month} ${date}`,
                     description: description,
-                    max_temp: `${max_temp.toFixed(1)}${weatherUnit}`,
-                    min_temp: `${min_temp.toFixed(1)}${weatherUnit}`,
+                    max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
+                    min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
                     icon: weatherIcon
                 };
         }
