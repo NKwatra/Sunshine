@@ -1,12 +1,14 @@
 {
     "expo": {
         "name": "Sunshine",
+        "description": "A simple to use weather app that keeps you updated with weather forecasts every 6 hours.",
         "slug": "Sunshine",
-        "privacy": "public",
+        "privacy": "unlisted",
         "sdkVersion": "35.0.0",
         "platforms": ["ios", "android", "web"],
         "version": "1.0.0",
-        "orientation": "portrait",
+        "orientation": "default",
+        "primaryColor": "#03a9f4",
         "icon": "./assets/icon.png",
         "splash": {
             "image": "./assets/splash.png",

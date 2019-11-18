@@ -188,7 +188,10 @@ class SettingsScreen extends React.Component {
     async handleLocationSwitchChange(value) {
         if (value) {
             const { status } = await Permissions.askAsync(Permissions.LOCATION);
-            if (status !== "granted") return;
+            if (status !== "granted") {
+                alert("Please allow location permission from settings");
+                return;
+            }
         }
         this.props.updateCurrLocation(value.toString());
         AsyncStorage.setItem(currentLocationKey, value.toString());

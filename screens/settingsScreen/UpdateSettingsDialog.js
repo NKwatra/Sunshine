@@ -13,9 +13,8 @@ export default UpdateSettingsDialog = props => {
                 <Dialog.Input
                     label="Location"
                     value={value}
-                    onChangeText={newText =>
-                        updateValue(newText)
-                    }></Dialog.Input>
+                    onChangeText={newText => updateValue(newText)}
+                    autoFocus></Dialog.Input>
             ) : (
                 <Picker
                     selectedValue={value}

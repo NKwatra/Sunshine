@@ -1,12 +1,5 @@
 import React from "react";
-import {
-    Text,
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    ScrollView
-} from "react-native";
+import { Text, View, StyleSheet, Image, ScrollView } from "react-native";
 import ShareIcon from "./ShareIcon";
 import Row from "./Row";
 import Styles from "../../Utilities/uiUtils/styles";
@@ -41,8 +34,8 @@ export default class DetailScreen extends React.Component {
     render() {
         const summary = this.props.navigation.getParam("summary");
         return (
-            <ScrollView style={{ flex: 1 }}>
-                <TouchableOpacity style={styles.largeWeatherContainer}>
+            <View style={{ flex: 1 }}>
+                <View style={styles.largeWeatherContainer}>
                     <View>
                         <Text style={[styles.textCenter, styles.date]}>
                             {summary.date}
@@ -78,25 +71,27 @@ export default class DetailScreen extends React.Component {
                             </Text>
                         </View>
                     </View>
-                </TouchableOpacity>
-                <View style={styles.extra}>
-                    <Row
-                        type={"Humidity"}
-                        value={summary.humidity}
-                        unit={"%"}
-                    />
-                    <Row
-                        type={"Pressure"}
-                        value={summary.pressure}
-                        unit={"mb"}
-                    />
-                    <Row
-                        type={"Wind Speed"}
-                        value={summary.wind}
-                        unit={this.props.units === "Metric" ? "m/s" : "mph"}
-                    />
                 </View>
-            </ScrollView>
+                <View style={styles.extra}>
+                    <ScrollView>
+                        <Row
+                            type={"Humidity"}
+                            value={summary.humidity}
+                            unit={"%"}
+                        />
+                        <Row
+                            type={"Pressure"}
+                            value={summary.pressure}
+                            unit={"mb"}
+                        />
+                        <Row
+                            type={"Wind Speed"}
+                            value={summary.wind}
+                            unit={this.props.units === "Metric" ? "m/s" : "mph"}
+                        />
+                    </ScrollView>
+                </View>
+            </View>
         );
     }
 }
@@ -132,12 +127,11 @@ const styles = StyleSheet.create({
         color: "#6c757d"
     },
     largeWeatherContainer: {
-        paddingTop: 32,
-        paddingBottom: 32
+        paddingTop: 16,
+        paddingBottom: 16
     },
     extra: {
         backgroundColor: Styles.detail_accent_pane_background,
-        borderColor: "red",
         flex: 1
     },
     textMuted: {
