@@ -5,7 +5,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default BottonNavigationIcon = props => {
     return (
         <View style={styles.container}>
-            <MaterialIcons name={props.name} size={32} />
+            <MaterialIcons
+                name={props.name}
+                size={32}
+                color={props.tintColor}
+            />
         </View>
     );
 };

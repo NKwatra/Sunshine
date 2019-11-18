@@ -12,14 +12,16 @@ const WeatherRow = props => {
             <View style={styles.row}>
                 <View style={[styles.row, styles.largeSection]}>
                     <Image source={icon} style={styles.icon} />
-                    <View>
-                        <Text>{date}</Text>
-                        <Text>{description}</Text>
+                    <View style={{ marginLeft: 5 }}>
+                        <Text style={styles.date}>{date}</Text>
+                        <Text style={styles.textMuted}>{description}</Text>
                     </View>
                 </View>
                 <View style={[styles.row, styles.smallSection, styles.spaced]}>
                     <Text style={styles.temperature}>{max_temp}</Text>
-                    <Text style={styles.temperature}>{min_temp}</Text>
+                    <Text style={[styles.textMuted, styles.temperature]}>
+                        {min_temp}
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -37,17 +39,20 @@ const styles = StyleSheet.create({
         fontSize: 20
     },
     item: {
-        padding: 15
+        paddingTop: 15,
+        paddingBottom: 15,
+        paddingLeft: 20,
+        paddingRight: 20
     },
     row: {
         flexDirection: "row",
         alignItems: "center"
     },
     largeSection: {
-        width: "65%"
+        width: "68%"
     },
     smallSection: {
-        width: "35%"
+        width: "32%"
     },
     spaced: {
         justifyContent: "space-between"
@@ -58,7 +63,13 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     temperature: {
-        fontSize: 20
+        fontSize: 18
+    },
+    textMuted: {
+        color: "#6c757d"
+    },
+    date: {
+        fontSize: 18
     }
 });
 

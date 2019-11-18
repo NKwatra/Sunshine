@@ -2,13 +2,14 @@ import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import ShareIcon from "./ShareIcon";
 import Row from "./Row";
+import Styles from "../../Utilities/uiUtils/styles";
 
 // TODO : (optinal) style the text to be shared
 export default class DetailScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return {
             headerStyle: {
-                backgroundColor: "#f4511e"
+                backgroundColor: Styles.colorPrimary
             },
             headerRight: () => (
                 <ShareIcon
@@ -17,7 +18,16 @@ export default class DetailScreen extends React.Component {
                         "No Information available"
                     )}
                 />
-            )
+            ),
+            headerBackTitleStyle: {
+                color: Styles.white
+            },
+            headerTintColor: Styles.white,
+            headerTitle: "Details",
+            headerTitleStyle: {
+                fontSize: 25,
+                fontWeight: "500"
+            }
         };
     };
 
@@ -25,7 +35,7 @@ export default class DetailScreen extends React.Component {
         const summary = this.props.navigation.getParam("summary");
         console.log(this.props);
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <TouchableOpacity style={styles.largeWeatherContainer}>
                     <View>
                         <Text style={[styles.textCenter, styles.date]}>
@@ -39,7 +49,11 @@ export default class DetailScreen extends React.Component {
                                     source={summary.icon}
                                     style={styles.largeIcon}
                                 />
-                                <Text style={styles.textCenter}>
+                                <Text
+                                    style={[
+                                        styles.textCenter,
+                                        styles.textMuted
+                                    ]}>
                                     {summary.description}
                                 </Text>
                             </View>
@@ -59,13 +73,23 @@ export default class DetailScreen extends React.Component {
                         </View>
                     </View>
                 </TouchableOpacity>
-                <Row type={"Humidity"} value={summary.humidity} unit={"%"} />
-                <Row type={"Pressure"} value={summary.pressure} unit={"mb"} />
-                <Row
-                    type={"Wind Speed"}
-                    value={summary.wind}
-                    unit={this.props.units === "Metric" ? "m/s" : "mph"}
-                />
+                <View style={styles.extra}>
+                    <Row
+                        type={"Humidity"}
+                        value={summary.humidity}
+                        unit={"%"}
+                    />
+                    <Row
+                        type={"Pressure"}
+                        value={summary.pressure}
+                        unit={"mb"}
+                    />
+                    <Row
+                        type={"Wind Speed"}
+                        value={summary.wind}
+                        unit={this.props.units === "Metric" ? "m/s" : "mph"}
+                    />
+                </View>
             </View>
         );
     }
@@ -83,21 +107,34 @@ const styles = StyleSheet.create({
         width: "50%"
     },
     largeIcon: {
-        width: 180,
-        height: 180,
-        marginLeft: "5%"
+        width: 150,
+        height: 150,
+        marginLeft: "15%"
     },
     largeText: {
-        fontSize: 50
+        fontSize: 50,
+        marginTop: 20
     },
     MinTemp: {
-        marginTop: 10
+        marginTop: 10,
+        fontSize: 25,
+        color: "#6c757d"
     },
     date: {
         marginTop: 10,
-        fontSize: 25
+        fontSize: 25,
+        color: "#6c757d"
     },
     largeWeatherContainer: {
-        paddingTop: 50
+        paddingTop: 32,
+        paddingBottom: 32
+    },
+    extra: {
+        backgroundColor: Styles.detail_accent_pane_background,
+        borderColor: "red",
+        flex: 1
+    },
+    textMuted: {
+        color: "#6c757d"
     }
 });

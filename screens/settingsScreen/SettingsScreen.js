@@ -12,8 +12,21 @@ import UpdateSettingsDialog from "./UpdateSettingsDialog";
 import { AntDesign } from "@expo/vector-icons";
 import { currentLocationKey } from "../../preferenceKeys";
 import * as Permissions from "expo-permissions";
+import Styles from "../../Utilities/uiUtils/styles";
 
 class SettingsScreen extends React.Component {
+    static navigationOptions = {
+        headerTitle: "Settings",
+        headerStyle: {
+            backgroundColor: Platform.OS === "ios" ? null : Styles.colorPrimary
+        },
+        headerTintColor: Platform.OS === "ios" ? null : Styles.white,
+        headerTitleStyle: {
+            fontSize: 25,
+            fontWeight: "500"
+        }
+    };
+
     state = {
         updateUnitsDialogVisible: false,
         updateLocationDialogVisible: false
@@ -32,24 +45,25 @@ class SettingsScreen extends React.Component {
                     <Text
                         style={
                             Platform.OS === "ios"
-                                ? null
-                                : styles.preferenceLable
+                                ? styles.largeFont
+                                : [styles.preferenceLable, styles.largeFont]
                         }>
                         UNITS
                     </Text>
                     <Text
                         style={
                             Platform.OS === "ios"
-                                ? styles.preferenceLable
-                                : null
+                                ? [styles.preferenceLable, styles.largeFont]
+                                : styles.largeFont
                         }>
                         {this.props.units}
                         {Platform.OS === "ios" ? (
                             <AntDesign name="right" tintColor="#78909c" />
-                        ) : null}
+                        ) : (
+                            styles.largeFont
+                        )}
                     </Text>
                 </TouchableOpacity>
-                <View style={styles.line}></View>
                 <View
                     style={
                         Platform.OS === "ios"
@@ -67,8 +81,8 @@ class SettingsScreen extends React.Component {
                     <Text
                         style={
                             Platform.OS === "ios"
-                                ? null
-                                : styles.preferenceLable
+                                ? styles.largeFont
+                                : [styles.preferenceLable, styles.largeFont]
                         }>
                         USE DEVICE LOCATION
                     </Text>
@@ -79,7 +93,6 @@ class SettingsScreen extends React.Component {
                         }
                     />
                 </View>
-                <View style={styles.line}></View>
                 {this.props.currLocation === "true" ? null : (
                     <TouchableOpacity>
                         <TouchableOpacity
@@ -92,16 +105,22 @@ class SettingsScreen extends React.Component {
                             <Text
                                 style={
                                     Platform.OS === "ios"
-                                        ? null
-                                        : styles.preferenceLable
+                                        ? styles.largeFont
+                                        : [
+                                              styles.preferenceLable,
+                                              styles.largeFont
+                                          ]
                                 }>
                                 LOCATION
                             </Text>
                             <Text
                                 style={
                                     Platform.OS === "ios"
-                                        ? styles.preferenceLable
-                                        : null
+                                        ? [
+                                              styles.preferenceLable,
+                                              styles.largeFont
+                                          ]
+                                        : styles.largeFont
                                 }>
                                 {this.props.location}
                                 {Platform.OS === "ios" ? (
@@ -112,7 +131,6 @@ class SettingsScreen extends React.Component {
                                 ) : null}
                             </Text>
                         </TouchableOpacity>
-                        <View style={styles.line}></View>
                     </TouchableOpacity>
                 )}
                 <UpdateSettingsDialog
@@ -181,22 +199,18 @@ class SettingsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    line: {
-        height: 1,
-        backgroundColor: "#78909C",
-        marginLeft: 10,
-        marginRight: 10
-    },
     row: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center"
     },
     settingGroup: {
-        padding: 10
+        padding: 10,
+        marginBottom: 20
     },
     settingGroupIos: {
-        padding: 20
+        padding: 20,
+        marginBottom: 20
     },
     preferenceLable: {
         color: "#78909C"
@@ -209,6 +223,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         padding: 15
+    },
+    largeFont: {
+        fontSize: 18
     }
 });
 

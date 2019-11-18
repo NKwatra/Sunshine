@@ -5,6 +5,7 @@ import HomeTab from "./tabs/HomeTab";
 import SettingsTab from "./tabs/SettingsTab";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import styles from "./Utilities/uiUtils/styles";
 
 const BottomNavigationBar = createMaterialBottomTabNavigator(
     {
@@ -13,7 +14,7 @@ const BottomNavigationBar = createMaterialBottomTabNavigator(
     },
     {
         labeled: false,
-        barStyle: { backgroundColor: "#fff" },
+        barStyle: { backgroundColor: styles.colorPrimary },
         initialRouteName: "Home",
         backBehavior: "order",
         // TODO : try to work out active color
