@@ -6,7 +6,19 @@ export const parseData = (Data, units) => {
 
 const formatData = (data, weatherUnit) => {
     const weatherForcast = data.map(
-        ({ max_temp, min_temp, valid_date, description, icon }, index) => {
+        (
+            {
+                max_temp,
+                min_temp,
+                valid_date,
+                description,
+                icon,
+                wind_speed,
+                pressure,
+                humidity
+            },
+            index
+        ) => {
             const currentDate = new Date(valid_date);
             let month, date, day, weatherIcon;
             weatherIcon = getIcon(icon);
@@ -24,7 +36,10 @@ const formatData = (data, weatherUnit) => {
                     description: description,
                     max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
                     min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
-                    icon: weatherIcon
+                    icon: weatherIcon,
+                    wind: wind_speed,
+                    pressure,
+                    humidity
                 };
             else if (index === 1)
                 return {
@@ -32,7 +47,10 @@ const formatData = (data, weatherUnit) => {
                     description: description,
                     max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
                     min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
-                    icon: weatherIcon
+                    icon: weatherIcon,
+                    wind: wind_speed,
+                    pressure,
+                    humidity
                 };
             else if (index >= 2 && index <= 6)
                 return {
@@ -40,7 +58,10 @@ const formatData = (data, weatherUnit) => {
                     description: description,
                     max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
                     min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
-                    icon: weatherIcon
+                    icon: weatherIcon,
+                    wind: wind_speed,
+                    pressure,
+                    humidity
                 };
             else
                 return {
@@ -48,7 +69,10 @@ const formatData = (data, weatherUnit) => {
                     description: description,
                     max_temp: `${max_temp.toFixed(0)}${weatherUnit}`,
                     min_temp: `${min_temp.toFixed(0)}${weatherUnit}`,
-                    icon: weatherIcon
+                    icon: weatherIcon,
+                    wind: wind_speed,
+                    pressure,
+                    humidity
                 };
         }
     );
@@ -209,11 +233,11 @@ export const extractFieldsFromJson = data => {
             ...result,
             {
                 valid_date,
-                wind_spd,
+                wind_speed: wind_spd,
                 max_temp,
                 min_temp,
-                pres,
-                rh,
+                pressure: pres,
+                humidity: rh,
                 description,
                 icon: code
             }

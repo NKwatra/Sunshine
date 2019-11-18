@@ -1,8 +1,7 @@
 import { fetchWeather } from "../Utilities/networkUtils/fetchWeather";
 import {
     parseData,
-    extractFieldsFromJson,
-    parseDbData
+    extractFieldsFromJson
 } from "../Utilities/jsonUtils/formatWeather";
 import { insert, read } from "../Utilities/dbUtils/DbHelper";
 

@@ -36,10 +36,10 @@ export const insert = (data, units) => {
                         values.push(
                             dailyWeather.min_temp,
                             dailyWeather.max_temp,
-                            dailyWeather.pres,
-                            dailyWeather.rh,
+                            dailyWeather.pressure,
+                            dailyWeather.humidity,
                             dailyWeather.valid_date,
-                            dailyWeather.wind_spd,
+                            dailyWeather.wind_speed,
                             dailyWeather.description,
                             units,
                             dailyWeather.icon

@@ -18,6 +18,7 @@ import {
 import LoadingIndicator from "../../Utilities/uiUtils/LoadingIndicator";
 import { read } from "../../Utilities/dbUtils/DbHelper";
 import { parseDbData } from "../../Utilities/jsonUtils/formatWeather";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 class MainScreen extends React.Component {
     componentDidMount() {
@@ -55,7 +56,12 @@ class MainScreen extends React.Component {
         } else {
             return (
                 <ScrollView style={styles.container}>
-                    <View>
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate("detail", {
+                                summary: weatherForecast[0]
+                            })
+                        }>
                         <View>
                             <Text style={[styles.textCenter, styles.date]}>
                                 {weatherForecast[0].date}
@@ -91,7 +97,7 @@ class MainScreen extends React.Component {
                                 </Text>
                             </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                     <FlatList
                         data={weatherForecast.slice(1, weatherForecast.length)}
                         renderItem={({ item }) => (
