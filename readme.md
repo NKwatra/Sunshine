@@ -9,16 +9,17 @@
 
 
 ## To run locally :
-1. Get your own copy of API key from [Weather bit](https://www.weatherbit.io/account/create).
-2. Create API.js file. Run below command from root folder of repository
+1. Clone the repository `git clone https://github.com/NKwatra/Sunshine.git`
+2. Get your own copy of API key from [Weather bit](https://www.weatherbit.io/account/create).
+3. Create API.js file. Run below command from root folder of repository
 
 
     ``` touch ./Utilities/networkUtils/API.js ```
 
-3. Add below line to the API.js file created 
+4. Add below line to the API.js file created 
 
     ``` export default API = [<your api key>] ```
-4. Type `npm run start` in to  the terminal and press Enter. 
+5. Type `npm run start` in to  the terminal and press Enter. 
 
 ## IOS 
 
